@@ -1,10 +1,12 @@
 #!/bin/bash
 
-set -e
+set +e
 
 
 killall -9 roscore
 killall -9 rosmaster
+
+set -e
 
 CAPSTONE_HOME=$('pwd')
 

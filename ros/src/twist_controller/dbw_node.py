@@ -71,6 +71,7 @@ class DBWNode(object):
         self.brake = 0
 
         print("Starting dwb_node loop!!")
+        assert(0==1)
         self.loop()
 
     def loop(self):

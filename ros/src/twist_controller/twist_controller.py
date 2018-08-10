@@ -40,7 +40,7 @@ class Controller(object):
 
     def control(self, *args, **kwargs):
 
-        dbw_enabled=kwargs["dbw_enable"]
+        dbw_enabled=kwargs["dbw_enabled"]
         if not dbw_enabled:
             self.throttle_controller.reset()
             return 0.0, 0.0, 0.0

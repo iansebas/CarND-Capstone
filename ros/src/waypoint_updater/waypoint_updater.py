@@ -81,8 +81,8 @@ class WaypointUpdater(object):
         lane.header = self.base_waypoints.header
         lane.waypoints = self.base_waypoints.waypoints[closest_idx:closest_idx+LOOKAHEAD_WPS]
         rospy.loginfo("publish_waypoints closest_idx {}".format(closest_idx))
-        rospy.loginfo("publish_waypoints header {}".format(header))
-        rospy.loginfo("publish_waypoints waypoints {}".format(waypoints))
+        rospy.loginfo("publish_waypoints header {}".format(lane.header))
+        rospy.loginfo("publish_waypoints waypoints {}".format(lane.waypoints))
         rospy.loginfo("publish_waypoints lane {}".format(lane))
         self.final_waypoints_pub.publish(lane)
         rospy.loginfo("publish_waypoints published")

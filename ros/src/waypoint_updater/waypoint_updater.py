@@ -53,6 +53,8 @@ class WaypointUpdater(object):
         rate = rospy.Rate(50)
         while not rospy.is_shutdown():
             if self.pose and self.base_waypoints:
+                print("loop self.pose {}".format(self.pose))
+                print("loop self.base_waypoints {}".format(self.base_waypoints))
                 closest_idx = self.get_closest_waypoint_idx()
                 self.publish_waypoints(closest_idx)
             rate.sleep()
@@ -86,6 +88,8 @@ class WaypointUpdater(object):
 
     def waypoints_cb(self, waypoints):
         self.base_waypoints = waypoints
+        print("waypoints_cb self.base_waypoints {}".format(self.base_waypoints))
+        print("waypoints_cb self.waypoints_2d {}".format(self.waypoints_2d))
         if not self.waypoints_2d:
             self.waypoints_2d = [[waypoints.pose.pose.position.x, waypoints.pose.pose.position.y] for waypoints in waypoints.waypoints]
             self.waypoints_tree = KDTree(self.waypoints_2d)

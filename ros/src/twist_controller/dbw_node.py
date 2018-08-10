@@ -70,6 +70,7 @@ class DBWNode(object):
         self.steering = 0
         self.brake = 0
 
+        print("Starting dwb_node loop!!")
         self.loop()
 
     def loop(self):
@@ -104,6 +105,7 @@ class DBWNode(object):
         tcmd.enable = True
         tcmd.pedal_cmd_type = ThrottleCmd.CMD_PERCENT
         tcmd.pedal_cmd = throttle
+        print("Publishing throttle {}".format(throttle))
         self.throttle_pub.publish(tcmd)
 
         scmd = SteeringCmd()

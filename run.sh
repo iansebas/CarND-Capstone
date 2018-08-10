@@ -2,6 +2,10 @@
 
 set -e
 
+
+killall -9 roscore
+killall -9 rosmaster
+
 CAPSTONE_HOME=$('pwd')
 
 function finish_trap {

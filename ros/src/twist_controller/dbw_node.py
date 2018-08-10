@@ -89,7 +89,7 @@ class DBWNode(object):
                                                                     dbw_enabled=self.dbw_enabled)
             else:
                 rospy.loginfo("Controller not working!")
-            
+
             if self.dbw_enabled:
                 rospy.loginfo("self.throttle {}".format(self.throttle))
                 rospy.loginfo("self.brake {}".format(self.brake))
@@ -111,7 +111,6 @@ class DBWNode(object):
         tcmd = ThrottleCmd()
         tcmd.enable = True
         tcmd.pedal_cmd_type = ThrottleCmd.CMD_PERCENT
-        throttle = 3
         tcmd.pedal_cmd = throttle
         rospy.loginfo("Publishing throttle {}".format(throttle))
         self.throttle_pub.publish(tcmd)

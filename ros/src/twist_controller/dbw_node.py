@@ -70,8 +70,7 @@ class DBWNode(object):
         self.steering = 0
         self.brake = 0
 
-        print("Starting dwb_node loop!!")
-        assert(0==1)
+        rospy.loginfo("Starting dwb_node loop!!")
         self.loop()
 
     def loop(self):
@@ -85,9 +84,9 @@ class DBWNode(object):
                                                                     linear_vel=self.linear_vel,
                                                                     dbw_enabled=self.dbw_enabled)
             if self.dbw_enabled:
-                print("self.throttle {}".format(self.throttle))
-                print("self.brake {}".format(self.brake))
-                print("self.steering {}".format(self.steering))
+                rospy.loginfo("self.throttle {}".format(self.throttle))
+                rospy.loginfo("self.brake {}".format(self.brake))
+                rospy.loginfo("self.steering {}".format(self.steering))
                 self.publish(self.throttle, self.brake, self.steering)
             rate.sleep()
 
@@ -106,7 +105,7 @@ class DBWNode(object):
         tcmd.enable = True
         tcmd.pedal_cmd_type = ThrottleCmd.CMD_PERCENT
         tcmd.pedal_cmd = throttle
-        print("Publishing throttle {}".format(throttle))
+        rospy.loginfo("Publishing throttle {}".format(throttle))
         self.throttle_pub.publish(tcmd)
 
         scmd = SteeringCmd()

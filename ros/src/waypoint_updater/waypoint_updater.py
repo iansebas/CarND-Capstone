@@ -84,9 +84,8 @@ class WaypointUpdater(object):
         rospy.loginfo("publish_waypoints header.seq {}".format(lane.header.seq))
         rospy.loginfo("publish_waypoints header.stamp {}".format(lane.header.stamp))
         rospy.loginfo("publish_waypoints header.frame_id {}".format(lane.header.frame_id))
-        rospy.loginfo("publish_waypoints lane.waypoints[0].header.seq {}".format(lane.waypoints[0].header.seq))
         rospy.loginfo("publish_waypoints lane.waypoints[0].pose.pose.position.x{}".format(lane.waypoints[0].pose.pose.position.x))
-        # rospy.loginfo("publish_waypoints lane.waypoints[0].pose.pose.position.x{}".format(lane.waypoints[0].pose.pose.position.x))
+        rospy.loginfo("publish_waypoints lane.waypoints[0].pose.pose.position.x{}".format(lane.waypoints[0].twist.twist.linear.x))
         self.final_waypoints_pub.publish(lane)
         rospy.loginfo("publish_waypoints published")
 

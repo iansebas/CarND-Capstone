@@ -79,10 +79,17 @@ class DBWNode(object):
             # TODO: Get predicted throttle, brake, and steering using `twist_controller`
             # You should only publish the control commands if dbw is enabled
             if not None in (self.current_vel, self.curr_ang_vel, self.angular_vel):
+                rospy.loginfo("self.current_vel {}".format(self.current_vel))
+                rospy.loginfo("self.angular_vel {}".format(self.angular_vel))
+                rospy.loginfo("self.linear_vel {}".format(self.linear_vel))
+                rospy.loginfo("self.dbw_enabled {}".format(self.dbw_enabled))
                 self.throttle, self.brake, self.steering = self.controller.control(current_vel=self.current_vel,
                                                                     angular_vel=self.angular_vel,
                                                                     linear_vel=self.linear_vel,
                                                                     dbw_enabled=self.dbw_enabled)
+            else:
+                rospy.loginfo("Controller not working!")
+            
             if self.dbw_enabled:
                 rospy.loginfo("self.throttle {}".format(self.throttle))
                 rospy.loginfo("self.brake {}".format(self.brake))
@@ -104,6 +111,7 @@ class DBWNode(object):
         tcmd = ThrottleCmd()
         tcmd.enable = True
         tcmd.pedal_cmd_type = ThrottleCmd.CMD_PERCENT
+        throttle = 3
         tcmd.pedal_cmd = throttle
         rospy.loginfo("Publishing throttle {}".format(throttle))
         self.throttle_pub.publish(tcmd)

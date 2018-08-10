@@ -43,7 +43,7 @@ class WaypointUpdater(object):
         self.pose = None
         self.base_waypoints = None
         self.waypoints_2d = None
-        self.waypoint_tree = None
+        self.waypoints_tree = None
 
         self.loop()
         #rospy.spin()
@@ -60,7 +60,7 @@ class WaypointUpdater(object):
     def get_closest_waypoint_idx(self):
         x = self.pose.pose.position.x
         y = self.pose.pose.position.y
-        closest_idx = self.waypoint_tree.query([x, y], 1)[1]
+        closest_idx = self.waypoints_tree.query([x, y], 1)[1]
 
         closest_coord = self.waypoints_2d[closest_idx]
         prev_coord = self.waypoints_2d[closest_idx-1] if closest_idx > 0 else self.waypoints_2d[closest_idx]

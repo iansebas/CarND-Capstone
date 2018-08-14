@@ -120,6 +120,7 @@ class TLDetector(object):
 
         """
         if (not test):
+            assert(1==0)
             exit(1)
             if(not self.has_image):
                 self.prev_light_loc = None

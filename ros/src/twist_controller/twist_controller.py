@@ -65,8 +65,8 @@ class Controller(object):
         if linear_vel == 0 and current_vel < 0.1:
             throttle = 0
             brake = 400
-        elif throttle < 0.1 and val_error < 0:
-            decel = max(val_error, self.decel_limit)
+        elif throttle < 0.1 and vel_error < 0:
+            decel = max(vel_error, self.decel_limit)
             brake = abs(decel)*self.vehicle_mass*self.wheel_radius
 
 

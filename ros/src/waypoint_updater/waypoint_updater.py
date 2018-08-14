@@ -85,9 +85,11 @@ class WaypointUpdater(object):
         
     def generate_lane(self):
         closest_idx = self.get_closest_waypoint_idx()
+        furthest_idx = closest_idx+LOOKAHEAD_WPS
         lane = Lane()
         lane.header = self.base_waypoints.header
-        lane.waypoints = self.base_waypoints.waypoints[closest_idx:closest_idx+LOOKAHEAD_WPS]
+        base_waypoints = self.base_waypoints.waypoints[closest_idx:furthest_idx]
+        lane.waypoints = base_waypoints
         return lane
 
     def pose_cb(self, msg):

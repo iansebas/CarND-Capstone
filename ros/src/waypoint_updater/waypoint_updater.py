@@ -93,7 +93,7 @@ class WaypointUpdater(object):
         if (self.stopline_wp_idx == -1) or (self.stopline_wp_idx >= furthest_idx) or (self.stopline_wp_idx is None):
             lane.waypoints = base_waypoints
         else:
-            rospy.loginfo("stopline_wp_idx {}".format(self.stopline_wp_idx))
+            rospy.loginfo("decelerate_waypoints")
             lane.waypoints = self.decelerate_waypoints(base_waypoints, closest_idx)
             #lane.waypoints = base_waypoints
         return lane
@@ -103,8 +103,6 @@ class WaypointUpdater(object):
         for i, wp in enumerate(waypoints):
             p = Waypoint()
             p.pose = wp.pose
-            rospy.loginfo("decelerate_waypoints self.stopline_wp_idx {}".format(self.stopline_wp_idx))
-            rospy.loginfo("decelerate_waypoints closest_idx {}".format(closest_idx))
             stop_idx = max(self.stopline_wp_idx - closest_idx - 2, 0)
             dist = self.distance(waypoints, i, stop_idx)
             vel = math.sqrt(2 * MAX_DECEL * dist)
@@ -119,17 +117,14 @@ class WaypointUpdater(object):
 
     def waypoints_cb(self, waypoints):
         self.base_waypoints = waypoints
-        rospy.loginfo("waypoints_cb self.base_waypoints {}".format(self.base_waypoints))
-        rospy.loginfo("waypoints_cb 0 self.waypoints_2d {}".format(self.waypoints_2d))
         if not self.waypoints_2d:
             self.waypoints_2d = [[waypoints.pose.pose.position.x, waypoints.pose.pose.position.y] for waypoints in waypoints.waypoints]
             self.waypoint_tree = KDTree(self.waypoints_2d)
 
-            rospy.loginfo("waypoints_cb 1 self.waypoints_2d {}".format(self.waypoints_2d))
-            rospy.loginfo("waypoints_cb 1 self.waypoint_tree {}".format(self.waypoint_tree))
-
     def traffic_cb(self, msg):
         self.stopline_wp_idx = msg.data
+        rospy.loginfo("stopline_wp_idx {}".format(self.stopline_wp_idx))
+
 
     def obstacle_cb(self, msg):
         self.obstacle_wp_idx = msg.data

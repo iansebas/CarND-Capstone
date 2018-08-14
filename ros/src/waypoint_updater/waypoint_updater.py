@@ -89,7 +89,12 @@ class WaypointUpdater(object):
         lane = Lane()
         lane.header = self.base_waypoints.header
         base_waypoints = self.base_waypoints.waypoints[closest_idx:furthest_idx]
-        lane.waypoints = base_waypoints
+        #lane.waypoints = base_waypoints
+        if (self.stopline_wp_idx == -1) or (self.stopline_wp_idx >= furthest_idx) or (self.stopline_wp_idx is None):
+            lane.waypoints = base_waypoints
+        else:
+            #lane.waypoints = self.decelerate_waypoints(base_waypoints, closest_idx)
+            lane.waypoints = base_waypoints
         return lane
 
     def pose_cb(self, msg):

@@ -78,7 +78,8 @@ class TLDetector(object):
             msg (Image): image from car-mounted camera
 
         """
-
+        pass
+        exit(1)
         if (self.image_cb_counter%SKIPPED_FRAMES == 0):
             self.image_cb_counter = 0
         else:

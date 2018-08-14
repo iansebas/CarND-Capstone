@@ -48,16 +48,17 @@ class WaypointUpdater(object):
         self.waypoint_tree = None
         self.stopline_wp_idx = -1
         self.obstacle_wp_idx = -1
-
         self.loop()
         #rospy.spin()
-
 
     def loop(self):
         rate = rospy.Rate(50)
         while not rospy.is_shutdown():
             if self.pose and self.base_waypoints:
-                self.publish_waypoints()
+                rospy.loginfo("loop self.pose {}".format(self.pose))
+                rospy.loginfo("loop self.base_waypoints {}".format(self.base_waypoints))
+                closest_idx = self.get_closest_waypoint_idx()
+                self.publish_waypoints(closest_idx)
             rate.sleep()
 
 
@@ -77,25 +78,18 @@ class WaypointUpdater(object):
 
         return closest_idx
 
-    def publish_waypoints(self):
-        lane = self.generate_lane()
-        self.final_waypoints_pub.publish(lane)
-        
-
-    def generate_lane(self):
+    def publish_waypoints(self, closest_idx):
         lane = Lane()
         lane.header = self.base_waypoints.header
-        closest_idx = self.get_closest_waypoint_idx()
-        furthest_idx = closest_idx+LOOKAHEAD_WPS
-        base_waypoints = self.base_waypoints.waypoints[closest_idx:furthest_idx]
-        lane.waypoints = base_waypoints
-
-        # if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= furthest_idx) or self.stopline_wp_idx is None:
-        #     lane.waypoints = base_waypoints
-        # else:
-        #     #lane.waypoints = self.decelerate_waypoints(base_waypoints, closest_idx)
-        #     lane.waypoints = base_waypoints
-        return lane
+        lane.waypoints = self.base_waypoints.waypoints[closest_idx:closest_idx+LOOKAHEAD_WPS]
+        rospy.loginfo("publish_waypoints closest_idx {}".format(closest_idx))
+        rospy.loginfo("publish_waypoints header.seq {}".format(lane.header.seq))
+        rospy.loginfo("publish_waypoints header.stamp {}".format(lane.header.stamp))
+        rospy.loginfo("publish_waypoints header.frame_id {}".format(lane.header.frame_id))
+        rospy.loginfo("publish_waypoints lane.waypoints[0].pose.pose.position.x{}".format(lane.waypoints[0].pose.pose.position.x))
+        rospy.loginfo("publish_waypoints lane.waypoints[0].pose.pose.position.x{}".format(lane.waypoints[0].twist.twist.linear.x))
+        self.final_waypoints_pub.publish(lane)
+        rospy.loginfo("publish_waypoints published")
 
 
     def pose_cb(self, msg):

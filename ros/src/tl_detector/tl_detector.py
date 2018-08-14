@@ -14,7 +14,8 @@ import yaml
 from scipy.spatial import KDTree
 
 #STATE_COUNT_THRESHOLD = 3
-STATE_COUNT_THRESHOLD = 5
+STATE_COUNT_THRESHOLD = 1
+SKIPPED_FRAMES = 5
 
 class TLDetector(object):
     def __init__(self):
@@ -53,6 +54,8 @@ class TLDetector(object):
         self.last_wp = -1
         self.state_count = 0
 
+        self.image_cb_counter = 0
+
         rospy.spin()
 
     def pose_cb(self, msg):
@@ -75,6 +78,12 @@ class TLDetector(object):
             msg (Image): image from car-mounted camera
 
         """
+
+        if (self.image_cb_counter%SKIPPED_FRAMES == 0):
+            self.image_cb_counter = 0
+        else:
+            return
+
         self.has_image = True
         self.camera_image = msg
         light_wp, state = self.process_traffic_lights()
@@ -97,6 +106,8 @@ class TLDetector(object):
         else:
             self.upcoming_red_light_pub.publish(Int32(self.last_wp))
         self.state_count += 1
+
+        self.image_cb_counter += 1
 
     def get_closest_waypoint(self, x, y):
         """Identifies the closest path waypoint to the given position

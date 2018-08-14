@@ -88,7 +88,7 @@ class WaypointUpdater(object):
         closest_idx = self.get_closest_waypoint_idx()
         furthest_idx = closest_idx+LOOKAHEAD_WPS
         lane = Lane()
-        lane.header = self.base_waypoints.header
+        #lane.header = self.base_waypoints.header
         base_waypoints = self.base_waypoints.waypoints[closest_idx:furthest_idx]
         if (self.stopline_wp_idx == -1) or (self.stopline_wp_idx >= furthest_idx) or (self.stopline_wp_idx is None):
             rospy.loginfo("base_waypoints {}".format(self.stopline_wp_idx))
